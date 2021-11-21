@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import QualitiesTable from "../components/ui/qualitiesTable";
-import axios from "axios";
-import config from "../config.json";
+// import axios from "axios";
+// import config from "../config.json";
+import qualityService from "../services/quality.service";
 const QualitiesListPage = () => {
-  const [quality, setQuality] = useState([]);
+  const [qualities, setQualities] = useState([]);
   const history = useHistory();
-  const qualityEndPoint = config.apiEndPoint;
+  // const qualityEndPoint = config.apiEndPoint;
+
   useEffect(async () => {
-    const { data } = await axios.get(qualityEndPoint + "quality");
-    setQuality(data.content);
-  }, []);
+    qualityService.fetchAll().then((data) => setQualities(data.content));
+  });
+  // useEffect(async () => {
+  //   const { data } = await axios.get(qualityEndPoint + "quality");
+  //   setQuality(data.content);
+  // }, []);
   //   useEffect(() => {
   //     const promise = axios
   //       .get("http://localhost:4000/api/v1/quality")
@@ -29,7 +34,7 @@ const QualitiesListPage = () => {
       <QualitiesTable
         onDelete={handleDelete}
         onEdit={handleEdit}
-        data={quality}
+        data={qualities}
       />
     </>
   );
